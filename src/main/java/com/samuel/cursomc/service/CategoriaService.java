@@ -9,6 +9,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
+
 import com.samuel.cursomc.domain.Categoria;
 import com.samuel.cursomc.dto.CategoriaDTO;
 import com.samuel.cursomc.repositories.CategoriaRepository;
@@ -33,8 +34,9 @@ public class CategoriaService {
 	}
 	
 	public Categoria update (Categoria obj) {
-		buscar(obj.getId());
-		return repo.save(obj);
+		Categoria newObj = buscar(obj.getId());
+		updateData(newObj, obj);
+		return repo.save(newObj);
 	}
 	
 	public void delete (Integer id) {
@@ -62,5 +64,10 @@ public class CategoriaService {
 	
 	public Categoria fromDTO (CategoriaDTO objDto) {
 		return new Categoria (objDto.getId(), objDto.getNome());
+	}
+	
+	private void updateData(Categoria newObj, Categoria obj) {
+		newObj.setNome(obj.getNome());
+		
 	}
 }
